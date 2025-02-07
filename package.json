@@ -1,0 +1,22 @@
+{
+  "name": "egermove-prototype",
+  "version": "1.0.0",
+  "main": "/backend/index.js",
+  "scripts": {
+    "dev": "nodemon ./backend/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "description": "",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mongoose": "^8.9.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "typescript": "^5.7.3"
+  }
+}
