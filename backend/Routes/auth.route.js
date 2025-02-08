@@ -1,16 +1,17 @@
 import express from "express";
-
+import { signUp,logIn,logOut,verifyEmail } from "../controllers/authController.js";
 
 const router=express.Router();
 
-router.get("/signup",(req,res)=>{
+router.post("/signup",signUp);
+router.post("/verifyemail",verifyEmail);
+router.post("/login",logIn);
+router.post("/logout",logOut);
 
-    res.send("signup route");
-});
-
-router.get("/login",(req,res)=>{
-
-    res.send("logout route")
-});
 
 export default router;
+
+
+
+
+//post request used to  send or update data to the server its more secure than get request
