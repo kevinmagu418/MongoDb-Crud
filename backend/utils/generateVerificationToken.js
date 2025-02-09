@@ -1,10 +1,8 @@
 // a function that generatrs a unique code using inbuilt js  math functions
 
-export const generateVerificationcode=async()=>{
+export const generateVerificationCode=()=>{
 //return defines the output
-return
-
-Math.floor(100000+Math.random()*900000).toString();
+ return  Math.floor(100000+Math.random()*900000).toString();
 
 
 

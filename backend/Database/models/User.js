@@ -8,7 +8,8 @@ const userSchema=new mongoose.Schema(
     password:{type:String, required:true},// stores a hashed password
     role: {type:String, enum:["passenger" ,"driver" , "admin"], required:true},// Role 
     isVerified:{type:Boolean ,default:false},// For account verification
-    
+    verificationCode:{type:String,required:false},
+    verificationTokenExpiresAt:{type:Date,required:false}
   },
    {timestamps:true ,discriminatorKey:"role"}
 
