@@ -50,7 +50,7 @@ sequenceDiagram
 
 
 
-raph TD;
+graph TD;
     A[User Submits Login Form] -->|Email & Password| B{Find User in Database}
     B -->|User Found| C[Compare Passwords with bcryptjs]
     B -->|User Not Found| D[Return Invalid Credentials]
