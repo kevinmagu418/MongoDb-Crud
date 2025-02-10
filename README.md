@@ -25,10 +25,7 @@ graph TD;
 
     C & E & J --> X[End];
     P --> X;
-
-
-
-#verify email
+    ```
 ```mermaid
 sequenceDiagram
     participant User
@@ -46,7 +43,7 @@ sequenceDiagram
     else Code is invalid or expired
         API->>User: Responds with error message
     end
-
+```
 
 ```mermaid
 graph TD;
@@ -65,6 +62,6 @@ graph TD;
 
     H --> J[Login Successful]
     I --> K[Login Failed]
-
+```
 
    
