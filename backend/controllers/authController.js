@@ -5,7 +5,7 @@ import { generateTokenandSetCookie } from "../utils/generateTokenandCookie.js";
 import { Driver } from "../Database/models/Driver.js";
 import { Passenger } from "../Database/models/passenger.js";
 import { sendVerificationEmail } from "../Resend/email.js";
-
+import { sendWelcomeEmail } from "../Resend/email.js";
 
 //controllers encapsulate logic
 export  const  signUp=async(req,res)=>{
@@ -55,7 +55,7 @@ const verificationCode=generateVerificationCode();
   password: hashedPassword,
   role,
   verificationCode,
-  verificationTokenExpiresAt:Date.now()+24*60*60*1000,
+  verificationTokenExpiresAt:new Date(Date.now()+24*60*60*1000),
   vehicleType,
   licensePlate, 
 
@@ -70,7 +70,7 @@ username,
   password: hashedPassword,
   role,
   verificationCode,
-  verificationTokenExpiresAt:Date.now()+9*60*60*1000,
+  verificationTokenExpiresAt: new Date(Date.now()+9*60*60*1000,)
 });
     }
 
@@ -128,9 +128,16 @@ userWithCode.verificationTokenExpiresAt=undefined;
 userWithCode.verificationCode=undefined;
 //save changes to the specific user document
 await userWithCode.save();
-
+  try{
 await sendWelcomeEmail(userWithCode.email);
+  }
 
+  catch(error){
+    console.error("Error sending welcome email:", error);
+
+  }
+
+  res.status(200).json({message:"welcome email sent",success:true})
 }
 
 
@@ -143,43 +150,55 @@ catch(error){
 }
 
 
+}
+
+//login controller:login an already registered user
+export const logIn=async(req,res)=>{
+  //destructure login credentials from request body
+  const {email,password}=req.body;
 
 
 
+try{
+
+    //check if the user exits in the  system
+    //verify email address
+    const User= await user.findOne({email:email});
+
+if(!User){
+//if the user does not exist return an error response
+   return res.status(400).json({success:false,message:"invalid credentials"}); 
+
+}
+//verify the password by comparing the password in database vs the one entered by user
+const isPasswordValid=await bcryptjs.compare(password,User.password);
+//bcryptjs firsts decodes and then compares
+
+if(!isPasswordValid){
+  return res.status(400).json({success:false,message:"invalid password"});
+}
+//else it login the user by setting jwt cookie
+
+generateTokenandSetCookie(res,User._id.toString());
+
+//update user last login
+
+User.updatedAt=new Date();
+
+await User.save();
+res.status(200).json({ success: true, message: "Login successful" , user: { ...User.toObject(), password: undefined } });
+}
 
 
+ catch(error){
 
+console.log("Error in login",error);
 
+res.status(500).json({success:false,message:"Internal server Error"});
+  
+ }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
 
 
 
@@ -188,9 +207,24 @@ catch(error){
 
 }
 
-//login controller
-export const logIn=()=>{}
 
-//logout controller
-export const  logOut=()=>{}
+
+
+
+
+
+
+//logout controller-encompases logout logic which is just clearing the cookie from browser
+
+export const  logOut=async(req,res)=>{
+    try{
+
+res.clearcookie("Authcookie");//name of the cookie
+ return res.status(200).json({message:"successfully log out"});
+    }  
+    catch(error){
+      console.error("error deleting cookie")
+    }
+
+}
 

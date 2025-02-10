@@ -46,3 +46,23 @@ sequenceDiagram
     else Code is invalid or expired
         API->>User: Responds with error message
     end
+
+
+
+
+raph TD;
+    A[User Submits Login Form] -->|Email & Password| B{Find User in Database}
+    B -->|User Found| C[Compare Passwords with bcryptjs]
+    B -->|User Not Found| D[Return Invalid Credentials]
+    
+    C -->|Password Matches| E[Generate JWT & Set Cookie]
+    C -->|Password Doesn't Match| F[Return Invalid Password]
+
+    E --> G[Update Last Login Timestamp]
+    G --> H[Send Success Response]
+    
+    F --> I[Return Error Response]
+    D --> I
+
+    H --> J[Login Successful]
+    I --> K[Login Failed]
