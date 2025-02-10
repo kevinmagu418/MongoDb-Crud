@@ -49,7 +49,6 @@ sequenceDiagram
 
 
 
-
 graph TD;
     A[User Submits Login Form] -->|Email & Password| B{Find User in Database}
     B -->|User Found| C[Compare Passwords with bcryptjs]
@@ -66,3 +65,6 @@ graph TD;
 
     H --> J[Login Successful]
     I --> K[Login Failed]
+
+
+   
