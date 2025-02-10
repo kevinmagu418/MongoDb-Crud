@@ -29,7 +29,7 @@ graph TD;
 
 
 #verify email
-
+```mermaid
 sequenceDiagram
     participant User
     participant API
@@ -48,7 +48,7 @@ sequenceDiagram
     end
 
 
-
+```mermaid
 graph TD;
     A[User Submits Login Form] -->|Email & Password| B{Find User in Database}
     B -->|User Found| C[Compare Passwords with bcryptjs]
