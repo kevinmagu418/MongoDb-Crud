@@ -35,14 +35,16 @@ sequenceDiagram
 
     User->>API: Sends verification code
     API->>Database: Checks if code exists and is valid
+
     alt Code is valid
         API->>Database: Updates user as verified
         API->>EmailService: Sends welcome email
-        EmailService-->>User: Receives welcome email
+        EmailService->>User: Receives welcome email
         API->>User: Responds with success message
     else Code is invalid or expired
         API->>User: Responds with error message
     end
+
 ```
 
 ```mermaid
